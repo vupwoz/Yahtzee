@@ -1,14 +1,28 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+// Example Yahtzee game logic (basic template)
+const root = document.getElementById('root');
 
-import App from "./App";
-import './style.css';
+function rollDice() {
+  return Math.floor(Math.random() * 6) + 1;
+}
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+function rollAllDice() {
+  let dice = [];
+  for (let i = 0; i < 5; i++) {
+    dice.push(rollDice());
+  }
+  return dice;
+}
 
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+function displayDice(dice) {
+  root.innerHTML = `
+    <h1>Yahtzee</h1>
+    <p>Dice: ${dice.join(', ')}</p>
+    <button id="roll">Roll Again</button>
+  `;
+  document.getElementById('roll').addEventListener('click', () => {
+    displayDice(rollAllDice());
+  });
+}
+
+// Initial render
+displayDice(rollAllDice());
